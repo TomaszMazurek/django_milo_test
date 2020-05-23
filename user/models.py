@@ -2,6 +2,9 @@ from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager, Permi
 from django.db import models
 from random import randint
 from django.utils import timezone
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
+from django.template.defaultfilters import slugify
 
 
 class UserManager(BaseUserManager):
@@ -10,7 +13,6 @@ class UserManager(BaseUserManager):
             raise ValueError('Dude, you must include username')
         if not birth_date:
             birth_date = timezone.now()
-
         user = self.model(
             username=username,
             birthDate=birth_date,
@@ -29,7 +31,6 @@ class UserManager(BaseUserManager):
 
 
 class MiloUser(AbstractBaseUser, PermissionsMixin):
-
     username = models.CharField(max_length=40, unique=True, db_index=True)
     birthDate = models.DateField()
     number = models.PositiveSmallIntegerField()
@@ -58,3 +59,8 @@ class MiloUser(AbstractBaseUser, PermissionsMixin):
     @property
     def is_staff(self):
         return self.is_admin
+
+
+@receiver(pre_save, sender=MiloUser)
+def pre_save_callback(sender, instance, *args, **kwargs):
+    instance.number = randint(0, 100)

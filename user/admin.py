@@ -12,6 +12,7 @@ class AddUserForm(forms.ModelForm):
     password2 = forms.CharField(
         label='Confirm password', widget=forms.PasswordInput
     )
+    number = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
 
     class Meta:
         model = MiloUser
