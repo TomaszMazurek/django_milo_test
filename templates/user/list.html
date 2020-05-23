@@ -10,15 +10,14 @@
         <th>BizzFuzz</th>
     </tr>
 
-{% for name in users %}
-    <tr type="entry" onclick="handleClick('{{ name.username }}')">
+{% for name, attributes in users %}
+    <tr class="entry" onclick="handleClick('{{ name.username }}')">
         <td>{{ name.username }}</td>
         <td>{{ name.birthDate }}</td>
-        <td>X</td>
+        <td>{{ attributes.eligible }}</td>
         <td>{{ name.number }}</td>
-        <td>X</td>
+        <td>{{ attributes.fizzbuzz }}</td>
     </tr>
-
 {% endfor %}
 </table>
 <form action="/add" method="post" class="inline">

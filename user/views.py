@@ -1,14 +1,20 @@
-from django.shortcuts import render, redirect
-from django.conf import settings
-from .models import MiloUser
-from django.contrib.auth import login
-from django.http import HttpResponseRedirect
-from .forms import MiloAddForm, MiloUpdateForm
 from django.contrib.auth import login, authenticate
+from django.http import HttpResponseRedirect
+from django.shortcuts import render, redirect
+from .forms import MiloAddForm, MiloUpdateForm
+from .models import MiloUser
+from .utils import is_fizz_buzz, get_age
 
 
 def milo_user_list_view(request):
-    return render(request, "user/list.html", {"users": MiloUser.objects.all()})
+    users = MiloUser.objects.all()
+    user_attributes = []
+
+    for i, user in enumerate(users):
+        user_attributes.append({"fizzbuzz": is_fizz_buzz(user), "eligible": get_age(user)})
+
+    user_data = zip(users, user_attributes)
+    return render(request, "user/list.html", {"users": user_data})
 
 
 def milo_user_view(request, name):
