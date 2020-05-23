@@ -11,7 +11,7 @@
     </tr>
 
 {% for name, attributes in users %}
-    <tr class="entry" onclick="handleClick('{{ name.username }}')">
+    <tr class="entry" onclick="handleClick('{{ name.username }}_detail')">
         <td>{{ name.username }}</td>
         <td>{{ name.birthDate }}</td>
         <td>{{ attributes.eligible }}</td>
@@ -24,9 +24,11 @@
         {% csrf_token %}
     <button class="float-left submit-button" >Add</button>
 </form>
+<button onclick="handleClick('csv')">Get csv file</button>
+
 <script>
-function handleClick(username){
-    window.location.href = window.location.origin + "/" + username + "_detail";
+function handleClick(path){
+    window.location.href = window.location.origin + "/" + path;
 }
 </script>
 {% endblock %}

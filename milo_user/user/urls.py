@@ -22,5 +22,6 @@ urlpatterns = [
     path('<str:name>_detail', views.milo_user_view),
     path('add', views.milo_user_add_view),
     path('<str:name>_delete', views.milo_user_delete_view),
-    path('<str:name>_update', views.milo_user_update_view)
+    path('<str:name>_update', views.milo_user_update_view),
+    path('csv', views.milo_user_csv_view)
 ]

@@ -1,5 +1,6 @@
+import csv
 from django.contrib.auth import login, authenticate
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect
 from .forms import MiloAddForm, MiloUpdateForm
 from .models import MiloUser
@@ -9,8 +10,7 @@ from .utils import is_fizz_buzz, get_age
 def milo_user_list_view(request):
     users = MiloUser.objects.all()
     user_attributes = []
-
-    for i, user in enumerate(users):
+    for user in users:
         user_attributes.append({"fizzbuzz": is_fizz_buzz(user), "eligible": get_age(user)})
 
     user_data = zip(users, user_attributes)
@@ -18,7 +18,10 @@ def milo_user_list_view(request):
 
 
 def milo_user_view(request, name):
-    return render(request, "user/detail.html", {"user": MiloUser.objects.get(username=name)})
+    user = MiloUser.objects.get(username=name)
+    return render(request, "user/detail.html", {"user": user,
+                                                "fizzbuzz": is_fizz_buzz(user),
+                                                "eligible": get_age(user)})
 
 
 def milo_user_add_view(request):
@@ -55,8 +58,18 @@ def milo_user_update_view(request, name):
             user.save()
             return redirect('/')
     else:
-        user_old = MiloUser.objects.get(username=name)
         form = MiloUpdateForm(instance=MiloUser.objects.get(username=name))
-        initial = form["username"]
-        values = initial
     return render(request, "user/update.html", {"form": form, "user": MiloUser.objects.get(username=name)})
+
+
+def milo_user_csv_view(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="csv_file.csv"'
+    writer = csv.writer(response)
+    users = MiloUser.objects.all()
+    writer.writerow(["Username", "Birthday", "Eligible", "Random Number", "BizzFuzz"])
+
+    for user in users:
+        writer.writerow([user.username, user.birthDate, get_age(user), user.number, is_fizz_buzz(user)])
+
+    return response

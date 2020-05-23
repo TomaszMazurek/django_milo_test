@@ -8,10 +8,10 @@
     </table>
     <input type="submit" value="Confirm update" />
 </form>
-<button onclick="handleClick('')">Back to list</button>
+<button onclick="handleClick()">Back to list</button>
 <script>
 function handleClick(username){
-    window.location.href = window.location.origin + "/" + username + "_user";
+    window.location.href = window.location.origin + "/";
 }
 </script>
 {% endblock %}
