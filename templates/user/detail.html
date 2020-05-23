@@ -1,0 +1,30 @@
+{% extends 'user/base.html' %}
+
+{% block content %}
+<table>
+    <tr>
+        <th>Username</th>
+        <th>Birthday</th>
+        <th>Eligible</th>
+        <th>Random Number</th>
+        <th>BizzFuzz</th>
+    </tr>
+
+    <tr type="entry" >
+        <td>{{ user.username }}</td>
+        <td>{{ user.birth }}</td>
+        <td>X</td>
+        <td>{{ user.number }}</td>
+        <td>X</td>
+    </tr>
+
+</table>
+<button onclick="handleClick('')">Back to list</button>
+<button onclick="handleClick('{{ user.username }}_delete')">Delete</button>
+<button onclick="handleClick('{{ user.username }}_update')">Update</button>
+<script>
+function handleClick(username_action){
+    window.location.href = window.location.origin + "/" + username_action;
+}
+</script>
+{% endblock %}

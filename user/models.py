@@ -2,9 +2,8 @@ from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager, Permi
 from django.db import models
 from random import randint
 from django.utils import timezone
-from django.db.models.signals import pre_save
+from django.db.models.signals import post_init
 from django.dispatch import receiver
-from django.template.defaultfilters import slugify
 
 
 class UserManager(BaseUserManager):
@@ -61,6 +60,7 @@ class MiloUser(AbstractBaseUser, PermissionsMixin):
         return self.is_admin
 
 
-@receiver(pre_save, sender=MiloUser)
+@receiver(post_init, sender=MiloUser)
 def pre_save_callback(sender, instance, *args, **kwargs):
-    instance.number = randint(0, 100)
+    if not instance.number:
+        instance.number = randint(0, 100)

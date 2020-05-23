@@ -1,0 +1,33 @@
+{% extends 'user/base.html' %}
+
+{% block content %}
+<table>
+    <tr>
+        <th>Username</th>
+        <th>Birthday</th>
+        <th>Eligible</th>
+        <th>Random Number</th>
+        <th>BizzFuzz</th>
+    </tr>
+
+{% for name in users %}
+    <tr type="entry" onclick="handleClick('{{ name.username }}')">
+        <td>{{ name.username }}</td>
+        <td>{{ name.birthDate }}</td>
+        <td>X</td>
+        <td>{{ name.number }}</td>
+        <td>X</td>
+    </tr>
+
+{% endfor %}
+</table>
+<form action="/add" method="post" class="inline">
+        {% csrf_token %}
+    <button class="float-left submit-button" >Add</button>
+</form>
+<script>
+function handleClick(username){
+    window.location.href = window.location.origin + "/" + username + "_detail";
+}
+</script>
+{% endblock %}

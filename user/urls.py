@@ -1,4 +1,4 @@
-"""milo_user URL Configuration
+"""milo_test URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.0/topics/http/urls/
@@ -15,8 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from . import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('user.urls')),
+    path('', views.milo_user_list_view),
+    path('<str:name>_detail', views.milo_user_view),
+    path('add', views.milo_user_add_view),
+    path('<str:name>_delete', views.milo_user_delete_view),
+    path('<str:name>_update', views.milo_user_update_view)
 ]
