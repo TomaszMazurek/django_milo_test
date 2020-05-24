@@ -32,10 +32,6 @@ def milo_user_add_view(request):
             user.refresh_from_db()
             user.birthDate = form.cleaned_data.get('birthDate')
             user.save()
-            username = form.cleaned_data.get('username')
-            raw_password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=raw_password)
-            login(request, user)
             return redirect('/')
     else:
         form = MiloAddForm()

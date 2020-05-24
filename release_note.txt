@@ -1,0 +1,86 @@
+Task has been accomplished using Python 3.7.3 and Django 3.0.6, without any non-standard libraries. It was developed
+on Linux Debian 10 Stretch OS (64bit), so any system-related information may or may not apply to other OSes.
+It is true especially for installation process. In case given solution or command does not work, please look for
+it's equivalent on other OS.
+
+Application was tested on
+Chrome 81.0.4044.138 (Official Build) (64-bit)
+Chromium/Brave browser ver. 1.8.95. Official Build: 81.0.4044.138 (64-bit)
+Iceweasel/Firefox Quantum 64.8.0esr(64bit).
+
+Installation process for Linux Debian 10 (Stretch) and Python 3.7.3:
+
+1. Get repository from https://github.com via Https using:
+    git clone https://github.com/TomaszMazurek/django_milo_test.git
+   or download zip package from:
+    https://github.com/TomaszMazurek/django_milo_test/archive/master.zip
+   and unzip it locally
+
+2. change directory to django_milo_test using:
+    cd django_milo_test
+
+3. Install virtualenv with:
+    pip3 install virtualenv
+
+4. Install virtual environment:
+    virtualenv venv
+
+5. Activate virtual environment for clean installation of required packages:
+    source venv/bin/activate
+
+6. Automatically install all python packages required by project:
+    pip install -r requirements.txt
+
+7. Change directory to project directory:
+    cd milo_user
+
+8. Run project development server:
+    python manage.py runserver
+
+9. Open Browser and get to address:
+    localhost:8000
+
+
+All requirements have been fulfilled:
+
+1. Application is based on latest Django installation
+2. MiloUser model inherits from AbstractBaseUser which is base User model from which User model inherits from.
+   AbstractBaseUser is recommended base class for extending User.
+3. MiloUser provides three basic fields:
+    username - character field type
+    birthData - date field type
+    number - small positive integer type
+
+    Username is required, birthDate provides current date if date is omitted, number is initialized with random
+    number from range between 0 and 100 using pre_save signal callback, in case value is None.
+
+4. There are five (CRUDL) views created:
+
+    milo_user_list_view - in context provides query list of MiloUser objects ("users") and calculated values:
+                          "fizzbuzz" tag assuming value from fizzbuzz algorithm calulation and "eligible" tag
+                          assuming "allowed" or "blocked" depending on the age. Both values are calculated with
+                          functions from user.utils.
+
+    milo_user_view - provides the same information as milo_user_list_view for user which username is passed as
+                     positional argument to view function.
+
+    milo_user_add_view - provides form MiloAddForm for adding user to user database.
+                         fields: 'username', "password", 'birthDate'.
+
+    milo_user_update_view - provides form MiloUpdateForm for updating user information. Username is passed as
+                            positional argument to view function
+                            fields: 'username', "password", 'birthDate', 'number'
+
+    milo_user_delete_view - deletes user with username value passed as positional argument to view function
+
+    milo_user_csv_view - generates and return csv file with list of MiloUsers from database.
+
+    For each view responding render function and milo_user_csv_view there is corresponding template. For list
+    and single user view template is rendered as table with following columns layout:
+
+            Username | Birthday | Eligible | Random Number | BizzFuzz
+
+5. Unit test were created for models and views. It can be found in tests.py and launched with
+    python manage.py test
+
+6. Csv file is generated and provided to download by button below list rendered with list.html template.
