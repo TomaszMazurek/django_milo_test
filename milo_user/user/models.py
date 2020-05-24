@@ -1,7 +1,7 @@
 from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager, PermissionsMixin)
 from django.db import models
 from random import randint
-from django.utils import timezone
+from datetime import datetime
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 
@@ -11,7 +11,7 @@ class UserManager(BaseUserManager):
         if not username:
             raise ValueError('Dude, you must include username')
         if not birth_date:
-            birth_date = timezone.now()
+            birth_date = datetime.today().date()
         user = self.model(
             username=username,
             birthDate=birth_date,

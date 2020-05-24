@@ -16,7 +16,7 @@ def milo_user_list_view(request):
     user_data = zip(users, user_attributes)
     return render(request, "user/list.html", {"users": user_data})
 
-
+    
 def milo_user_view(request, name):
     user = MiloUser.objects.get(username=name)
     return render(request, "user/detail.html", {"user": user,
